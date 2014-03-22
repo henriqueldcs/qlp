@@ -9,6 +9,7 @@ describe Game do
     @game = Game.new
     @player1 = Player.new 1
     @player2 = Player.new 2
+
   end
   
 	describe "#addPlayer" do
@@ -66,6 +67,35 @@ describe Game do
       
       expect(@game.total_kills).to eq(2)
     end
+	end
+	
+	describe "#report" do
+	  it "Deve retornar um hash com o ranking do jogo." do
+	    @game.addPlayer(@player1)
+      @game.addPlayer(@player2)
+      
+      @player1.nick='Pato'
+      @player2.nick='Ganso'
+      
+      @game.kill(@player1, @player2)
+      @game.kill(@player1, @player2)
+      @game.kill(@player1, @player2)
+      @game.kill(@player2, @player1)
+      @game.kill(@player2, @player1)
+      @game.kill(:world, @player2)
+      
+      hash_esperado = {
+        'total_kills' => 6,
+        'players' => ['Ganso', 'Pato'],
+        'kills' => {
+          'Ganso' => 1,
+          'Pato' => 3
+        }
+      }
+      
+      expect( @game.report).to eq hash_esperado
+      
+	  end
 	end
 	
 end

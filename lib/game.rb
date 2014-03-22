@@ -23,5 +23,22 @@ class Game
       killed.die
     end
   end
+  
+  def report
+    
+    kills ||= {}
+    @players.values.map do |player|
+      kills[player.nick] = player.kills
+    end
+    
+    kills = kills.sort_by{|key, value| key }.to_h
+    players = kills.keys
+    
+    report_game = { 'total_kills' => @total_kills,
+                    'players' => players, 
+                    'kills' => kills }
+    
+    report_game
+  end
 
 end
