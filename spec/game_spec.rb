@@ -3,9 +3,9 @@ require 'player'
 require 'game'
 
 describe Game do
-	describe "addPlayer" do
+	describe "#addPlayer" do
 		it "Adiciona um jogador ao jogo" do
-			player = Player.new 1, "Player1"
+			player = Player.new 1
 			game = Game.new
 			game.addPlayer(player)
 
@@ -13,8 +13,8 @@ describe Game do
 		end
 
 		it "Adiciona dois jogadores ao jogo" do
-			player1 = Player.new 1, "Player1"
-			player2 = Player.new 2, "Player2"
+			player1 = Player.new 1
+			player2 = Player.new 2
 			game = Game.new
 			game.addPlayer(player1)
 			game.addPlayer(player2)
@@ -22,4 +22,5 @@ describe Game do
 			expect(game.players.size).to eq(2)
 		end
 	end
+	
 end
