@@ -34,7 +34,7 @@ describe Game do
 	  it "Quando o <world> mata o player ele perde -1 kill." do
 	    
 	    @game.addPlayer(@player1)
-	    @game.kill(:world, @player1)
+	    @game.kill(:world, @player1, 22)
 	    
 	    expect( @player1.kills ).to eq(-1)
 	  end
@@ -43,7 +43,7 @@ describe Game do
   	  @game.addPlayer(@player1)
       @game.addPlayer(@player2)
       
-      @game.kill(@player1, @player2)
+      @game.kill(@player1, @player2, 22)
       
       expect( @player1.kills).to eq(1)
   	end
@@ -52,7 +52,7 @@ describe Game do
       @game.addPlayer(@player1)
       @game.addPlayer(@player2)
       
-      @game.kill(@player1, @player2)
+      @game.kill(@player1, @player2, 22)
       
       expect( @player2.deaths).to eq(1)
     end
@@ -62,8 +62,8 @@ describe Game do
       @game.addPlayer(@player1)
       @game.addPlayer(@player2)
       
-      @game.kill(@player1, @player2)
-      @game.kill(:world, @player2)
+      @game.kill(@player1, @player2, 22)
+      @game.kill(:world, @player2, 22)
       
       expect(@game.total_kills).to eq(2)
     end
@@ -77,12 +77,12 @@ describe Game do
       @player1.nick='Pato'
       @player2.nick='Ganso'
       
-      @game.kill(@player1, @player2)
-      @game.kill(@player1, @player2)
-      @game.kill(@player1, @player2)
-      @game.kill(@player2, @player1)
-      @game.kill(@player2, @player1)
-      @game.kill(:world, @player2)
+      @game.kill(@player1, @player2, 22)
+      @game.kill(@player1, @player2, 22)
+      @game.kill(@player1, @player2, 22)
+      @game.kill(@player2, @player1, 22)
+      @game.kill(@player2, @player1, 22)
+      @game.kill(:world, @player2, 22)
       
       hash_esperado = {
         'total_kills' => 6,
@@ -98,4 +98,30 @@ describe Game do
 	  end
 	end
 	
+	describe "#report_means" do 
+	  it "deve retornar um hash com o ranking de meios de morte." do
+	    
+	    @game.addPlayer(@player1)
+      @game.addPlayer(@player2)
+      
+      @player1.nick='Pato'
+      @player2.nick='Ganso'
+      
+      @game.kill(@player1, @player2, 1)
+      @game.kill(@player1, @player2, 1)
+      @game.kill(@player1, @player2, 10)
+      @game.kill(@player2, @player1, 10)
+      @game.kill(@player2, @player1, 2)
+	    
+	    hash_esperado = {
+        'kill_by_means' => {
+          "MOD_SHOTGUN" => 2,
+          "MOD_RAILGUN" => 2,
+          "MOD_GAUNTLET"=> 1
+        }
+      }
+      
+      expect( @game.report_means).to eq(hash_esperado)
+	  end
+	end
 end

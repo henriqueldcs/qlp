@@ -46,7 +46,7 @@ describe QuakeParserLog do
       expected = {:instruction => 'Kill',
                   :id_killer => 1022,
                   :id_killed => 4,
-                  :id_weapon => 22}
+                  :id_mean => 22}
       
       expect(instruction).to eq(expected)
     end

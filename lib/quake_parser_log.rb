@@ -7,16 +7,22 @@ class QuakeParserLog
     @games = []
   end
   
-  def report
+  def report type
     
     report = {}
     
     @games.each_with_index do |game, index|
-      report["game_#{index}"] = game.report
+      if type != nil && type == :means_of_kill
+        report["game_#{index}"] = game.report_means
+      else
+        report["game_#{index}"] = game.report
+      end
     end
     
     report
   end
+  
+  
   
   def parse
     line = @file_reader.next_line
@@ -82,7 +88,7 @@ class QuakeParserLog
       instruction[:instruction] = 'Kill'
       instruction[:id_killer] = array[1].to_i
       instruction[:id_killed] = array[2].to_i
-      instruction[:id_weapon] = array[3].to_i
+      instruction[:id_mean] = array[3].to_i
     
     end 
     
@@ -134,8 +140,9 @@ class QuakeParserLog
       end
     
       killed = @current_game.players[instruction[:id_killed]]
-      
-      @current_game.kill(killer, killed)
+      mean = instruction[:id_mean]
+
+      @current_game.kill(killer, killed, mean)
     end
   end
 end
