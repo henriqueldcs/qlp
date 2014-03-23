@@ -1,12 +1,16 @@
 class FileReader
   
   def initialize file_name
-    
-    @file = File.open(file_name, 'r')
+    @file = File.open(file_name, 'r') unless file_name == nil
   end
   
   def next_line
-    @file.readline
+    
+    if !@file.eof?
+      @file.readline
+    else
+      nil
+    end
   end
   
   

@@ -1,7 +1,7 @@
 class Player
 
-	attr_reader :id
-	attr_accessor :nick, :kills, :deaths
+	attr_reader :id, :kills, :deaths
+	attr_accessor :nick
 	
 	def initialize ( id )
 		@id = id
